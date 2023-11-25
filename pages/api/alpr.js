@@ -1,6 +1,4 @@
 import EventEmitter from "events";
-import fs from "fs";
-import { watch } from "fs";
 
 let plates = [];
 let plates_id = []
@@ -9,7 +7,7 @@ export const delay = (ms) => new Promise(function (resolve) {
   return setTimeout(resolve, ms);
 });
 const stream = new EventEmitter();
-EventEmitter.defaultMaxListeners = 15;
+//EventEmitter.defaultMaxListeners = 19;
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const newUuid = req.body.uuid;

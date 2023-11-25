@@ -4,12 +4,11 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:../data/collection.db"
+  url      = "file:../sqlite-data/collection.db"
 }
 
 model items {
   id    Int     @id @default(autoincrement())
   plate String?
   uuid  String?
-  img   String?
 }

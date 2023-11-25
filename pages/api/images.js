@@ -1,4 +1,3 @@
-import fs from 'fs'
 import { watch } from 'fs';
 import EventEmitter from "events";
 
@@ -15,7 +14,7 @@ export default async function handler(req, res) {
   });
 
   watch('./public/images', (eventType, filename) => {
-    stream.emit("channel", "myEventName", "http://localhost:3000/images/" + filename);
+    stream.emit("channel", "alprImageEvent", "http://localhost:3000/images/" + filename);
     return filename
   });
   counter++;

@@ -1,5 +1,6 @@
 import sqlite3 from "sqlite3";
 import { open, Database } from "sqlite";
+
 let db = null;
 
 export default async function FetchAllAlpr(req, res) {

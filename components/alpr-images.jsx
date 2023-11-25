@@ -5,7 +5,7 @@ export default function AlprImages() {
   const [state, setState] = useState([]);
   useEffect(() => {
     const evtSource = new EventSource("/api/images");
-    evtSource.addEventListener("myEventName", (event) => {
+    evtSource.addEventListener("alprImageEvent", (event) => {
       const myEvent = JSON.parse(event.data);
       setState(myEvent);
     });
