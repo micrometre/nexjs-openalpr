@@ -8,12 +8,6 @@ id1(alprd) <--> a(nextjs <br/>)
 ```
 
 
-```bash
-yarn alpr
-# or
-yarn dev
-```
-
 
 
 

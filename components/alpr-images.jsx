@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { motion } from 'framer-motion'
 export default function AlprImages() {
   const [state, setState] = useState([]);
   useEffect(() => {
@@ -25,22 +26,19 @@ export default function AlprImages() {
             <a href={state.data} target="_blank"
               rel="noopener noreferrer"
             >
-              <Image
-                src={state.data}
-                alt="The " 
-                width={500}
-                height={500}
-                />
+                     <motion.img
+                  src={state.data}
+                  alt="The " />
             </a>
           </div>
         </div>
         <style>
           {`
             .thumbnail {
-                cursor: pointer;
             }
 
             .frame {
+                cursor: pointer;
                 overflow: hidden;
             }
 

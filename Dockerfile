@@ -1,22 +1,21 @@
-# Base on offical Node.js Alpine image
-FROM node:alpine
+FROM debian:buster
+RUN echo 'deb http://deb.debian.org/debian buster-backports main' > /etc/apt/sources.list.d/backports.list
+RUN apt-get update &&  apt-get install -y \
+curl \
+python \
+wget \
+supervisor \
+gnupg \
+apt-transport-https \
+apt-utils \
+lsof
+RUN curl --silent --location https://raw.githubusercontent.com/micrometreuk/anpr/master/scripts/openalpr-buster.sh | bash -
+VOLUME /etc/openalpr/
+VOLUME /var/lib/openalpr/
 
-# Set working directory
-WORKDIR /usr/app
-
-# Install PM2 globally
-
-COPY ./package*.json ./
-
-# Install dependencies
-RUN yarn
-
-# Copy all files
-COPY ./ ./
-
-RUN yarn build
-
-# Expose the listening port
-EXPOSE 3000
-CMD yarn start
-
+RUN mkdir -p   /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY files/alprd.conf /etc/openalpr/alprd.conf
+CMD ["/usr/bin/supervisord"]
+WORKDIR ~/
+EXPOSE 11300 3000
