@@ -1,5 +1,6 @@
 import formidable from "formidable";
 import fs from "fs";
+import { watch } from 'fs';
 
 
 export const config = {
@@ -10,6 +11,14 @@ export const config = {
 
 export default async function post(req, res) {
   if (req.method === 'POST') {
+  watch('./public/upload', (eventType, filename) => {
+    if (filename) {
+      fs.readFile('./sqlite-data/test.txt', 'utf-8', (err, data) => {
+        if (err) throw err;
+        console.log(data)
+      });
+    }
+  });
     const form = formidable({
       defaultInvalidName: 'invalid',
       uploadDir: `public/upload`,
@@ -33,9 +42,6 @@ export default async function post(req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ fields, files }, null, 2));
 
-
-
-    
     const saveFile = async (file) => {
       const data = fs.readFileSync(files.file[0].filepath);
       fs.writeFileSync(`./public/upload/${files.file[0].originalFilename}`, data);
@@ -49,6 +55,5 @@ export default async function post(req, res) {
 
   }
 }
-
 
 

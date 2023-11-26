@@ -1,5 +1,6 @@
 import EventEmitter from "events";
 import { watch } from 'fs';
+import fs from 'fs';
 let plates = [];
 let plates_id = []
 const sqlite3 = require("sqlite3").verbose();
@@ -36,7 +37,7 @@ export default async function handler(req, res) {
             return console.error(err.message);
           }
           const sqlValues = [newPlates, newUuid]
-          console.log(sqlValues)
+          // console.log(sqlValues)
           const insertSql = `INSERT INTO items(plate, uuid) VALUES(?, ? )`;
           db.run(insertSql, sqlValues, function (err) {
             if (err) {
