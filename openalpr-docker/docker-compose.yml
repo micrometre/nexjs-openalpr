@@ -1,3 +1,5 @@
 services:
   alpr:
     build: .
+    volumes:
+      - ./public/images:/var/lib/openalpr/

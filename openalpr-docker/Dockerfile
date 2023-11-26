@@ -11,7 +11,8 @@ apt-utils \
 lsof
 RUN curl --silent --location https://raw.githubusercontent.com/micrometreuk/anpr/master/scripts/openalpr-buster.sh | bash -
 VOLUME /etc/openalpr/
-VOLUME /var/lib/openalpr/
+RUN mkdir -p   /var/lib/openalpr/plateimages
+VOLUME /var/lib/openalpr/plateimages
 
 RUN mkdir -p   /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
