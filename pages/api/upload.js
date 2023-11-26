@@ -33,6 +33,9 @@ export default async function post(req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ fields, files }, null, 2));
 
+
+
+    
     const saveFile = async (file) => {
       const data = fs.readFileSync(files.file[0].filepath);
       fs.writeFileSync(`./public/upload/${files.file[0].originalFilename}`, data);

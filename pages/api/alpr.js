@@ -1,5 +1,5 @@
 import EventEmitter from "events";
-
+import { watch } from 'fs';
 let plates = [];
 let plates_id = []
 const sqlite3 = require("sqlite3").verbose();
@@ -14,6 +14,7 @@ export default async function handler(req, res) {
     const newPlates = req.body.results[0].plate;
     plates_id.push(newUuid)
     plates.push(newPlates);
+
     const db = new sqlite3.Database(
       "sqlite-data/collection.db",
       sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
@@ -35,7 +36,7 @@ export default async function handler(req, res) {
             return console.error(err.message);
           }
           const sqlValues = [newPlates, newUuid]
-          console.log(sqlValues)
+   //       console.log(sqlValues)
           const insertSql = `INSERT INTO items(plate, uuid) VALUES(?, ? )`;
           db.run(insertSql, sqlValues, function (err) {
             if (err) {

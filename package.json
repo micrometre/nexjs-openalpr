@@ -8,10 +8,11 @@
     "start": "next dev",
     "lint": "next lint",
     "manage-db": " next dev &  npx prisma studio",
-    "prismaPush": "prisma db pull",
+    "prismaPull": "prisma db pull",
     "prismaStudio": "prisma studio",
     "alprd" : "make -C openalpr-docker/ start",
     "alprd-stop" : "make -C openalpr-docker/ stop",
+    "clean-db": "rm sqlite-data/collection.db",
     "clean" : "sudo rm public/images/*"
   },
   "dependencies": {
