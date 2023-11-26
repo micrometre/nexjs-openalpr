@@ -7,10 +7,15 @@ wget \
 supervisor \
 gnupg \
 apt-transport-https \
-apt-utils 
-RUN /openalpr-buster.sh
+apt-utils \
+lsof
+RUN curl --silent --location https://raw.githubusercontent.com/micrometreuk/anpr/master/scripts/openalpr-buster.sh | bash -
 VOLUME /etc/openalpr/
-EXPOSE 3000 11300
+VOLUME /var/lib/openalpr/
+
 RUN mkdir -p   /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY alprd.conf /etc/openalpr/alprd.conf
-CMD ["/usr/bin/alprd -f"]
+CMD ["/usr/bin/supervisord"]
+WORKDIR ~/
+EXPOSE 11300 3000
