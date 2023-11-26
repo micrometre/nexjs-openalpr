@@ -36,7 +36,7 @@ export default async function handler(req, res) {
             return console.error(err.message);
           }
           const sqlValues = [newPlates, newUuid]
-   //       console.log(sqlValues)
+          console.log(sqlValues)
           const insertSql = `INSERT INTO items(plate, uuid) VALUES(?, ? )`;
           db.run(insertSql, sqlValues, function (err) {
             if (err) {

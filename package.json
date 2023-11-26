@@ -10,10 +10,10 @@
     "manage-db": " next dev &  npx prisma studio",
     "prismaPull": "prisma db pull",
     "prismaStudio": "prisma studio",
-    "alprd" : "make -C openalpr-docker/ start",
-    "alprd-stop" : "make -C openalpr-docker/ stop",
-    "clean-db": "rm sqlite-data/collection.db",
-    "clean" : "sudo rm public/images/*"
+    "alprd" : "docker-compose -f openalpr-docker/docker-compose.yml up -d",
+    "alprd-stop" : "docker-compose -f openalpr-docker/docker-compose.yml down -v",
+    "del-db": "rm sqlite-data/collection.db",
+    "del-images" : "sudo rm public/images/*"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
