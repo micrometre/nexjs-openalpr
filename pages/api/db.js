@@ -11,10 +11,10 @@ export default async function FetchAllAlpr(req, res) {
         driver: sqlite3.Database, 
       });
     }
-    //SELECT * FROM "items" WHERE LENGTH(plate) = 7;
+    //SELECT * FROM items;
     const items = await db.all(`
 
-    SELECT * FROM items;
+    SELECT * FROM "items" WHERE LENGTH(plate) = 7;
     
     `);
     res.status(200).json(items)

@@ -9,7 +9,10 @@
     "lint": "next lint",
     "manage-db": " next dev &  npx prisma studio",
     "prismaPush": "prisma db pull",
-    "prismaStudio": "prisma studio"
+    "prismaStudio": "prisma studio",
+    "alprd" : "make -C openalpr-docker/ start",
+    "alprd-stop" : "make -C openalpr-docker/ stop",
+    "clean" : "sudo rm public/images/*"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
