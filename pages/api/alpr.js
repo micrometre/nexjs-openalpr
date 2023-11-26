@@ -34,15 +34,16 @@ export default async function handler(req, res) {
           if (err) {
             return console.error(err.message);
           }
-            const sqlValues = [newPlates, newUuid]
-            const insertSql = `INSERT INTO items(plate, uuid) VALUES(?, ? )`;
-            db.run(insertSql, sqlValues, function (err) {
-              if (err) {
-                return console.error(err.message);
-              }
-              const id = this.lastID; // get the id of the last inserted row
-            });
-          }
+          const sqlValues = [newPlates, newUuid]
+          console.log(sqlValues)
+          const insertSql = `INSERT INTO items(plate, uuid) VALUES(?, ? )`;
+          db.run(insertSql, sqlValues, function (err) {
+            if (err) {
+              return console.error(err.message);
+            }
+            const id = this.lastID; // get the id of the last inserted row
+          });
+        }
       );
     });
     return res.json(newPlates)
