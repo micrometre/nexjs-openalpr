@@ -18,6 +18,6 @@ export default async function handler(req, res) {
     return filename
   });
   counter++;
-  await delay(100000000);
+  await delay(100000);
   res.end("done\n");
 }

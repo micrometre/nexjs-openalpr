@@ -13,6 +13,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const newUuid = req.body.uuid;
     const newPlates = req.body.results[0].plate;
+    console.log(newPlates)
     plates_id.push(newUuid)
     plates.push(newPlates);
 

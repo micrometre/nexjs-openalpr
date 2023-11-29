@@ -1,6 +1,5 @@
 import formidable from "formidable";
 import fs from "fs";
-import { watch } from 'fs';
 
 
 export const config = {
@@ -11,14 +10,6 @@ export const config = {
 
 export default async function post(req, res) {
   if (req.method === 'POST') {
-  watch('./public/upload', (eventType, filename) => {
-    if (filename) {
-      fs.readFile('./sqlite-data/test.txt', 'utf-8', (err, data) => {
-        if (err) throw err;
-        console.log(data)
-      });
-    }
-  });
     const form = formidable({
       defaultInvalidName: 'invalid',
       uploadDir: `public/upload`,
@@ -55,5 +46,3 @@ export default async function post(req, res) {
 
   }
 }
-
-
