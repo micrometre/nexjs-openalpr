@@ -1,7 +1,8 @@
 import EventEmitter from "events";
 import { watch } from 'fs';
-import fs from 'fs';
-import { existsSync } from 'node:fs';
+import { execFile } from "child_process";
+
+
 
 let plates = [];
 let plates_id = []
@@ -11,13 +12,22 @@ export const delay = (ms) => new Promise(function (resolve) {
 });
 const stream = new EventEmitter();
 //EventEmitter.defaultMaxListeners = 19;
-const deleteFile = './docs/deleteme.txt'
+const deleteFile = 'sqlite-data/collection.db'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const newUuid = req.body.uuid;
+  watch('./public/upload/alprVideo.mp4', (eventType, filename) => {
+
+  const child = execFile('./manage.sh', (error, stdout, stderr) => {
+    if (error) {
+      throw error;
+    }
+    console.log(stdout);
+  }); 
+  });
+  const newUuid = req.body.uuid;
     const newPlates = req.body.results[0].plate;
-    console.log(newPlates)
+ //console.log(newPlates)
     plates_id.push(newUuid)
     plates.push(newPlates);
 
