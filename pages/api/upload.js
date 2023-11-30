@@ -1,15 +1,27 @@
 import formidable from "formidable";
 import fs from "fs";
-
+import { watch } from 'fs';
 
 export const config = {
   api: {
     bodyParser: false
   }
 };
+const deleteFile = './docs/deleteme.txt'
+
 
 export default async function post(req, res) {
   if (req.method === 'POST') {
+    watch('./public/upload', (eventType, filename) => {
+      if (fs.existsSync(deleteFile)) {
+        fs.unlink(deleteFile, (err) => {
+            if (err) {
+                console.log(err);
+            }
+            console.log('deleted');
+        })
+    }
+    });
     const form = formidable({
       defaultInvalidName: 'invalid',
       uploadDir: `public/upload`,
