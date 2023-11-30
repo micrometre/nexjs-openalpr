@@ -1,18 +1,28 @@
 import formidable from "formidable";
 import fs from "fs";
 import { watch } from 'fs';
+const { execFile } = require('node:child_process');
 
 export const config = {
   api: {
     bodyParser: false
   }
 };
-const deleteFile = 'sqlite-data/collection.db'
 
 
 export default async function post(req, res) {
   if (req.method === 'POST') {
+  watch('./public/upload/alprVideo.mp4', (eventType, filename) => {
+  const child = execFile('./manage.sh', (error, stdout, stderr) => {
+    if (error) {
+      throw error;
+    }
+    console.log(stdout);
+  }); 
+  });
 
+
+    
     const form = formidable({
       defaultInvalidName: 'invalid',
       uploadDir: `public/upload`,

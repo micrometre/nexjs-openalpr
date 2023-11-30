@@ -1,5 +1,4 @@
 #!/bin/bash -xv
-ls -la
 file="sqlite-data/collection.db"
 #sudo rm public/images/*
 
