@@ -7,21 +7,12 @@ export const config = {
     bodyParser: false
   }
 };
-const deleteFile = './docs/deleteme.txt'
+const deleteFile = 'sqlite-data/collection.db'
 
 
 export default async function post(req, res) {
   if (req.method === 'POST') {
-    watch('./public/upload', (eventType, filename) => {
-      if (fs.existsSync(deleteFile)) {
-        fs.unlink(deleteFile, (err) => {
-            if (err) {
-                console.log(err);
-            }
-            console.log('deleted');
-        })
-    }
-    });
+
     const form = formidable({
       defaultInvalidName: 'invalid',
       uploadDir: `public/upload`,

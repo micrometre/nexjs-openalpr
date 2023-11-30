@@ -1,7 +1,7 @@
 import EventEmitter from "events";
 import { watch } from 'fs';
-import { execFile } from "child_process";
 
+const { execFile } = require('node:child_process');
 
 
 let plates = [];
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   });
   const newUuid = req.body.uuid;
     const newPlates = req.body.results[0].plate;
- //console.log(newPlates)
+    //console.log(newPlates)
     plates_id.push(newUuid)
     plates.push(newPlates);
 
