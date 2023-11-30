@@ -1,6 +1,8 @@
 import EventEmitter from "events";
 import { watch } from 'fs';
 import fs from 'fs';
+import { existsSync } from 'node:fs';
+
 let plates = [];
 let plates_id = []
 const sqlite3 = require("sqlite3").verbose();
@@ -9,6 +11,8 @@ export const delay = (ms) => new Promise(function (resolve) {
 });
 const stream = new EventEmitter();
 //EventEmitter.defaultMaxListeners = 19;
+const deleteFile = './docs/deleteme.txt'
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const newUuid = req.body.uuid;
