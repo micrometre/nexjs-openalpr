@@ -35,7 +35,8 @@ export default async function post(req, res) {
 
     const saveFile = async (file) => {
       const data = fs.readFileSync(files.file[0].filepath);
-      fs.writeFileSync(`./public/upload/${files.file[0].originalFilename}`, data);
+      fs.writeFileSync(`./public/upload/alprVideo.mp4`, data);
+      //fs.writeFileSync(`./public/upload/${files.file[0].originalFilename}`, data);
       await fs.unlinkSync(files.file[0].filepath);
       return;
     };
