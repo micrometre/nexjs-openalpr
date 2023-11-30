@@ -1,6 +1,7 @@
 import EventEmitter from "events";
-const { execFile } = require('node:child_process');
 import { watch } from 'fs';
+const { execFile } = require('node:child_process');
+
 
 let plates = [];
 let plates_id = []
@@ -20,13 +21,18 @@ export default async function handler(req, res) {
           throw error;
         }
         console.log(stdout);
-      }); 
       });
-  const newUuid = req.body.uuid;
+    });
+
+
+
+
+    const newUuid = req.body.uuid;
     const newPlates = req.body.results[0].plate;
-    console.log(newPlates)
     plates_id.push(newUuid)
     plates.push(newPlates);
+    console.log(plates.length)
+    console.log(plates_id.length)
 
     const db = new sqlite3.Database(
       "sqlite-data/collection.db",
@@ -72,12 +78,12 @@ export default async function handler(req, res) {
     stream.on("channel", function (event, data) {
       res.write(`event: ${event}\ndata: ${JSON.stringify({ data })}\n\n`); // <- the format here is important!
     });
-
-    for (let i = 0; i < plates.length; i++) {
-      const data = `${plates[i]}  ${plates_id[i]}`;
+    for (let x in plates, plates_id) {
+      const data = `${plates[x]}, ${plates_id[x]}`;
       stream.emit("channel", "alprEvent", data); // the event name here must be the same as in the EventSource in frontend
-      await delay(100);
+      await delay(500);
     }
+
     res.end('done\n');
 
   }
