@@ -10,6 +10,8 @@ import clsx from 'clsx';
 // Depending on the size of the application, this would be stored in a database.
 const links = [
   { name: 'ANPR/ALPR', href: '/alpr', icon: DocumentArrowUpIcon },
+  { name: 'Manage Mysql data-base', href:'http://localhost:8080', icon: DocumentArrowUpIcon },
+  { name: 'Manage Sqlite data-base', href:'http://localhost:5555', icon: DocumentArrowUpIcon },
 ];
 
 export default function NavLinks() {

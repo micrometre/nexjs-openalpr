@@ -1,6 +1,6 @@
 import EventEmitter from "events";
-
-
+const { execFile } = require('node:child_process');
+import { watch } from 'fs';
 
 let plates = [];
 let plates_id = []
@@ -14,6 +14,14 @@ const deleteFile = 'sqlite-data/collection.db'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
+    watch('./public/upload/alprVideo.mp4', (eventType, filename) => {
+      const child = execFile('./manage.sh', (error, stdout, stderr) => {
+        if (error) {
+          throw error;
+        }
+        console.log(stdout);
+      }); 
+      });
   const newUuid = req.body.uuid;
     const newPlates = req.body.results[0].plate;
     console.log(newPlates)
