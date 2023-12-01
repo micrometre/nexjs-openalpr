@@ -13,7 +13,7 @@
     "alprd": "docker-compose -f openalpr-docker/docker-compose.yml up -d",
     "alprd-logs": "docker-compose -f openalpr-docker/docker-compose.yml logs",
     "alprd-stop": "docker-compose -f openalpr-docker/docker-compose.yml down -v",
-    "mysql": "docker-compose -f docker-mysql/docker-compose.yml up -d",
+    "mysql-reload": "make -C docker-mysql/ update",
     "del-db": "rm sqlite-data/collection.db",
     "del-images": "sudo rm public/images/*"
   },

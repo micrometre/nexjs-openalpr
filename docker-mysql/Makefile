@@ -1,7 +1,7 @@
-upgrade:
-	docker-compose stop
+update:
+	docker-compose down -v
 	docker-compose pull
-	docker-compose up -d
+	docker-compose up -d --build
 start:	
 	docker-compose up -d
 stop:	

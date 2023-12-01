@@ -6,7 +6,7 @@ stop:
 	docker-compose down 
 
 update:
-	docker-compose down -v
+	docker-compose down 
 	docker-compose pull
 	docker-compose up -d --build
 
