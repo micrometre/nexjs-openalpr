@@ -19,7 +19,6 @@ export default function AlprHome() {
                     scrollSnapType: "y mandatory",
                 }}
             >
-                <DataTable />
             </div>
         </Layout>
     )

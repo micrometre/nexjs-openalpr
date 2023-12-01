@@ -10,6 +10,7 @@
     "manage-db": " next dev &  npx prisma studio",
     "prismaPull": "prisma db pull",
     "prismaStudio": "prisma studio",
+    "mysql-push": "bash manage.sh",
     "mysql-reload": "make -C docker-mysql/ update",
     "alprd": "make -C openalpr-docker/ start",
     "alprd-restart": "make -C openalpr-docker/ restart",
