@@ -81,7 +81,7 @@ export default async function handler(req, res) {
     for (let x in plates, plates_id) {
       const data = `${plates[x]}, ${plates_id[x]}`;
       stream.emit("channel", "alprEvent", data); // the event name here must be the same as in the EventSource in frontend
-      await delay(500);
+      await delay(300);
     }
 
     res.end('done\n');
