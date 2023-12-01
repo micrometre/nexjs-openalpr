@@ -7,3 +7,4 @@ file="sqlite-data/collection.db"
 if [ -f "$file" ] ; then
     rm "$file"
 fi
+ALTER TABLE items MODIFY id int NOT NULL AUTO_INCREMENT;

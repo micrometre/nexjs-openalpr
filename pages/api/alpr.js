@@ -14,9 +14,9 @@ export default async function handler(req, res) {
     const newUuid = req.body.uuid;
     const newPlates = req.body.results[0].plate;
     watch('./public/images', (eventType, filename) => {
-    const sqlValues = [filename, newUuid]
+    const sqlValues = [newPlates, newUuid, filename]
     //var sql = "INSERT INTO items (id, plate, uuid) VALUES ('1111111', 'Highway 37', 'testing')";
-    let sql = `INSERT INTO items(plate, uuid) VALUES(?, ?)`;
+    let sql = `INSERT INTO items(plate, uuid, img) VALUES(?, ?, ?)`;
       console.log(filename)
     con.query(sql, sqlValues, function (err, result) {
       if (err) throw err;
