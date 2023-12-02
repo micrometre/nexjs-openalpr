@@ -9,6 +9,7 @@ export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("Connection", "keep-alive");
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "*");
   let counter = 0;
   stream.on("channel", function (event, data) {
     res.write(`event: ${event}\ndata: ${JSON.stringify({ data })}\n\n`);
@@ -19,6 +20,6 @@ export default async function handler(req, res) {
     return filename
   });
   counter++;
-  await delay(300000);
+  await delay(100000);
   res.end("done\n");
 }

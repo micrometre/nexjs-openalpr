@@ -13,7 +13,7 @@ var con = mysql.createConnection({
 
 
   export default function handler(req, res) {
-    con.query("SELECT * FROM items", function (err, result, fields) {
+    con.query("SELECT * FROM alpr_images", function (err, result, fields) {
          if (err) throw err;
          //res.json({ result })
          res.status(200).json(result)

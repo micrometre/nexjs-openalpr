@@ -11,7 +11,6 @@ import clsx from 'clsx';
 const links = [
   { name: 'ANPR/ALPR', href: '/alpr', icon: DocumentArrowUpIcon },
   { name: 'Manage Mysql data-base', href:'http://localhost:8080', icon: DocumentArrowUpIcon },
-  { name: 'Manage Sqlite data-base', href:'http://localhost:5555', icon: DocumentArrowUpIcon },
 ];
 
 export default function NavLinks() {
@@ -25,6 +24,7 @@ export default function NavLinks() {
           <Link
             key={link.name}
             href={link.href}
+            target='_blank'
             className={clsx(
               'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
               {

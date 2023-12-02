@@ -67,7 +67,6 @@ export default async function handler(req, res) {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache, no-transform");
     res.setHeader("Access-Control-Allow-Origin", "*");
-
     res.setHeader("Connection", "keep-alive");
     let counter = 0;
     stream.on("channel", function (event, data) {
@@ -76,7 +75,7 @@ export default async function handler(req, res) {
     for (let x in plates, plates_id) {
       const data = `${plates[x]}, ${plates_id[x]}`;
       stream.emit("channel", "alprEvent", data); // the event name here must be the same as in the EventSource in frontend
-      await delay(300);
+      await delay(100);
     }
 
     res.end('done\n');
