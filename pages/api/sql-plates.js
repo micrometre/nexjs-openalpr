@@ -13,7 +13,11 @@ var con = mysql.createConnection({
 
 
 export default function handler(req, res) {
-  con.query("SELECT * FROM alpr_plates", function (err, result, fields) {
+  con.query(`SELECT plate, created_on FROM alpr_plates`
+  
+  
+  
+  , function (err, result, fields) {
     if (err) throw err;
     //res.json({ result })
     res.status(200).json(result)
