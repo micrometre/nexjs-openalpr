@@ -1,6 +1,46 @@
 import { watch } from 'fs';
 import EventEmitter from "events";
 
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "alpruser",
+  password: "=[-p0o9i8U",
+  database: "alprdata"
+
+});
+
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  //var sql = "CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))";
+  var sql =  `CREATE TABLE IF NOT EXISTS alpr_images (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    img TEXT,
+    created_on DATETIME NOT NULL DEFAULT NOW() -- or CURRENT_TIMESTAMP
+  )`
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table created");
+  });
+});
+
+
+const datetime = new Date();
+
+watch('./public/images', (eventType, filename) => {
+  const sqlValues = [ filename]
+  let sql = `INSERT INTO alpr_images(img) VALUES(?)`;
+    //console.log(filename)
+  con.query(sql, sqlValues, function (err, result) {
+    if (err) throw err;
+    console.error();
+    //res.json({ result })
+  });
+  });
+
 
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const stream = new EventEmitter();
