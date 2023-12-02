@@ -28,11 +28,11 @@ con.connect(function (err) {
   )`
   con.query(sqlimages, function (err, result) {
     if (err) throw err;
-    console.log("Tables created");
+    console.log("Images Tables  created");
   });
   con.query(sqlplates, function (err, result) {
     if (err) throw err;
-    console.log("Tables created");
+    console.log("Plates Tables created");
   });
 });
 
@@ -53,7 +53,14 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const newUuid = req.body.uuid;
     const newPlates = req.body.results[0].plate;
-    //console.log(newPlates)
+    const sqlValues = [newPlates, newUuid]
+    let sql = `INSERT INTO alpr_plates(plate, uuid) VALUES(?, ?)`;
+    console.log(sqlValues)
+    con.query(sql, sqlValues, function (err, result) {
+      if (err) throw err;
+      console.error();
+      //res.json({ result })
+    });
     res.status(200).json(newPlates)
   }
   if (req.method === 'GET') {
