@@ -9,8 +9,9 @@ import clsx from 'clsx';
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: 'ANPR/ALPR', href: '/alpr', icon: DocumentArrowUpIcon },
+  { name: 'ANPR/ALPR', href: '/', icon: DocumentArrowUpIcon },
   { name: 'ANPR/ALPR Image Gallery', href: '/gallery', icon: DocumentArrowUpIcon },
+  { name: 'ANPR/ALPR data-base', href:'data', icon: DocumentArrowUpIcon },
   { name: 'Manage Mysql data-base', href:'http://localhost:8080', icon: DocumentArrowUpIcon },
 ];
 
