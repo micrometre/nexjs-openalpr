@@ -31,9 +31,9 @@ con.connect(function(err) {
 const datetime = new Date();
 
 watch('./public/images', (eventType, filename) => {
-  const sqlValues = [ filename]
+  const sqlValues = [ "http://localhost:3000/images/" + filename]
   let sql = `INSERT INTO alpr_images(img) VALUES(?)`;
-    //console.log(filename)
+    console.log(sqlValues)
   con.query(sql, sqlValues, function (err, result) {
     if (err) throw err;
     console.error();
