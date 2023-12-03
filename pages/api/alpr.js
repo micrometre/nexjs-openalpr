@@ -17,7 +17,7 @@ const watcher = chokidar.watch('.', {
   usePolling: false,
   atomic: true,
   followSymlinks: true,
-  awaitWriteFinish: false
+  awaitWriteFinish: true
 })
 
 
@@ -75,12 +75,15 @@ con.connect(function (err) {
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
+
+
     watcher.on('add', path => {
       const newUuid = req.body.uuid;
       const newPlates = req.body.results[0].plate;
+      const newPlatesImages = path
       plates_id.push(newUuid)
       plates.push(newPlates);
-      const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/" + path]
+      const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/" + newPlatesImages]
       console.log(sqlValues)
       let sql = `INSERT INTO images_plates(plate, uuid, img) VALUES(?, ?, ?)`;
       con.query(sql, sqlValues, function (err, result) {

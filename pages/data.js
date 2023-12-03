@@ -28,6 +28,7 @@ export default function DataTable() {
                     <td>{item.id}</td>
                     <td>{item.plate}</td>
                     <td>{item.uuid}</td>
+                    <td>{item.img}</td>
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     </td>
                   </tr>
