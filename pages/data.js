@@ -6,7 +6,7 @@ import Layout from '@/components/layout'
 export default function DataTable() {
   const [items, setItems] = useState([]);
   useEffect(() => {
-    fetch("/api/sql-plates", {
+    fetch("/api/alpr-sql", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -28,10 +28,6 @@ export default function DataTable() {
                     <td>{item.id}</td>
                     <td>{item.plate}</td>
                     <td>{item.uuid}</td>
-                    <td>{item.created_on}</td>
-                    <td>{item.created_on}</td>
-                    <td>{item.created_on}</td>
-                    <td>{item.created_on}</td>
                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     </td>
                   </tr>
