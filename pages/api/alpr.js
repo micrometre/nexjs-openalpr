@@ -1,5 +1,14 @@
 import { watch } from 'fs';
 import EventEmitter from "events";
+
+
+
+
+
+
+
+
+
 const stream = new EventEmitter();
 export const delay = (ms) => new Promise(function (resolve) {
   return setTimeout(resolve, ms);
@@ -18,34 +27,37 @@ var con = mysql.createConnection({
 
 con.connect(function (err) {
   if (err) throw err;
-  var sqlimages = `CREATE TABLE IF NOT EXISTS alpr_images (
+  var sql_images = `CREATE TABLE IF NOT EXISTS alpr_images (
     id INT PRIMARY KEY AUTO_INCREMENT,
     img TEXT,
     created_on DATETIME NOT NULL DEFAULT NOW() -- or CURRENT_TIMESTAMP
   )`
-  var sqlplates = `CREATE TABLE IF NOT EXISTS alpr_plates (
+  var sql_plates = `CREATE TABLE IF NOT EXISTS alpr_plates (
     id INT PRIMARY KEY AUTO_INCREMENT,
     plate TEXT,
     uuid TEXT,
     created_on DATETIME NOT NULL DEFAULT NOW() -- or CURRENT_TIMESTAMP
   )`
-  con.query(sqlimages, function (err, result) {
+  var images_plates = `CREATE TABLE IF NOT EXISTS images_plates (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    plate TEXT,
+    uuid TEXT,
+    img TEXT,
+    created_on DATETIME NOT NULL DEFAULT NOW() -- or CURRENT_TIMESTAMP
+  )`
+  con.query(sql_images, function (err, result) {
     if (err) throw err;
   });
-  con.query(sqlplates, function (err, result) {
+  con.query(sql_plates, function (err, result) {
+    if (err) throw err;
+  });
+  con.query(images_plates, function (err, result) {
     if (err) throw err;
   });
 });
 
 
-watch('./public/images', (eventType, filename) => {
-  const sqlValues = ["http://localhost:3000/images/" + filename]
-  let sql = `INSERT INTO alpr_images(img) VALUES(?)`;
-  con.query(sql, sqlValues, function (err, result) {
-    if (err) throw err;
-    console.error();
-  });
-});
+
 
 
 export default async function handler(req, res) {
@@ -59,6 +71,16 @@ export default async function handler(req, res) {
     con.query(sql, sqlValues, function (err, result) {
       if (err) throw err;
       console.error();
+    });
+
+    watch('./public/images', (eventType, filename) => {
+      const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/" + filename]
+      let sql = `INSERT INTO images_plates(plate, uuid, img) VALUES(?, ?, ? )`;
+      console.log(sqlValues)
+      con.query(sql, sqlValues, function (err, result) {
+        if (err) throw err;
+        console.error();
+      });
     });
     res.status(200).json(newPlates)
   }

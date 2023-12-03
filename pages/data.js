@@ -17,7 +17,6 @@ export default function DataTable() {
   }, []);
 
   const collection = items.map((item) => {
-      console.log(items)
     return (
       <div key={item.id} id={item.id} xs={3}>
         <div className="mt-6 flow-root">

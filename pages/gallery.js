@@ -8,7 +8,7 @@ import Layout from '@/components/layout'
 const items = () => {
   const [items, setItems] = useState([]);
   useEffect(() => {
-    fetch("/api/sql-images", {
+    fetch("/api/alpr-sql", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -23,6 +23,7 @@ const items = () => {
 
       <div key={item.id} id={item.id} xs={3}>
         <h2>{item.id}</h2>
+        <h2>{item.plate}</h2>
         <p>{item.img}</p>
         <p>{item.created_on}</p>
 
