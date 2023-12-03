@@ -5,20 +5,6 @@ let alpr_stdout = []
 const { execFile } = require('node:child_process');
 const { spawn } = require('child_process');
 
-const ls = spawn('inotifywait', ['-m', '-e', 'create',  'public/images']);
-
-ls.stdout.on('data', (data) => {
-  console.log(`${data}`);
-});
-
-ls.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
-
-ls.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-}); 
-
 const watcher = chokidar.watch('.', {
   persistent: true,
   cwd: "public/images",
@@ -90,19 +76,25 @@ con.connect(function (err) {
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-      const newUuid = req.body.uuid;
-      const newPlates = req.body.results[0].plate;
-      plates_id.push(newUuid)
-      plates.push(newPlates);
-      const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/" ]
-      console.log(sqlValues)
-      let sql = `INSERT INTO images_plates(plate, uuid, img) VALUES(?, ?, ?)`;
-      con.query(sql, sqlValues, function (err, result) {
-        if (err) throw err;
-        console.error();
-      });
+    const ls = spawn('inotifywait', [ '--timefmt', '%F%T',  '--format', '%T%f',  '-m', '-e', 'create', 'public/images']);
 
-      res.status(200).json(newPlates)
+    ls.stdout.on('data', (data) => {
+      console.log(`${data}`);
+    });
+
+    const newUuid = req.body.uuid;
+    const newPlates = req.body.results[0].plate;
+    plates_id.push(newUuid)
+    plates.push(newPlates);
+    const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/"]
+    //console.log(sqlValues)
+    let sql = `INSERT INTO images_plates(plate, uuid, img) VALUES(?, ?, ?)`;
+    con.query(sql, sqlValues, function (err, result) {
+      if (err) throw err;
+      console.error();
+    });
+
+    res.status(200).json(newPlates)
 
   }
 
