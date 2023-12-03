@@ -1,7 +1,9 @@
 import { watch } from 'fs';
 import EventEmitter from "events"
 import chokidar from "chokidar"
-
+let alpr_stdout = []
+const { execFile } = require('node:child_process');
+const { spawn } = require('child_process');
 
 
 const watcher = chokidar.watch('.', {
@@ -75,15 +77,24 @@ con.connect(function (err) {
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
+    const ls = spawn('inotifywait', ['-m', '/usr']);
 
+ls.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
 
-    watcher.on('add', path => {
+ls.stderr.on('data', (data) => {
+  console.error(`stderr: ${data}`);
+});
+
+ls.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+}); 
       const newUuid = req.body.uuid;
       const newPlates = req.body.results[0].plate;
-      const newPlatesImages = path
       plates_id.push(newUuid)
       plates.push(newPlates);
-      const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/" + newPlatesImages]
+      const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/" ]
       console.log(sqlValues)
       let sql = `INSERT INTO images_plates(plate, uuid, img) VALUES(?, ?, ?)`;
       con.query(sql, sqlValues, function (err, result) {
@@ -91,8 +102,7 @@ export default async function handler(req, res) {
         console.error();
       });
 
-    res.status(200).json(newPlates)
-    })
+      res.status(200).json(newPlates)
 
   }
 
