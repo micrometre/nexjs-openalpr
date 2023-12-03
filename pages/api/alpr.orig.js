@@ -1,22 +1,11 @@
 import { watch } from 'fs';
-import EventEmitter from "events"
-import chokidar from "chokidar"
+import EventEmitter from "events";
 
-const watcher = chokidar.watch('public/images',{
-  persistent: false,
-  ignoreInitial: true,
-  ignored: [ 'watch-folder/ignore-1.txt', 'watch-folder/ignore-2.txt' ],
-  ignorePermissionErrors: false,
-  interval: 100,
-  binaryInterval: 300,
-  disableGlobbing: false,
-  enableBinaryInterval: true,
-  useFsEvents: false,
-  usePolling: false,
-  atomic: true,
-  followSymlinks: true,
-  awaitWriteFinish: false
-})
+
+
+
+
+
 
 
 
@@ -67,26 +56,14 @@ con.connect(function (err) {
   });
 });
 
-const log = console.log.bind(console);
 
 
 
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    watcher.on('ready',()=>{
-      console.log("I am ready to watch files")
-  })
-  
-  // Whenever file is added
-  watcher.on('add',path => {
-      console.log(path)
-  }) 
-
-
     const newUuid = req.body.uuid;
     const newPlates = req.body.results[0].plate;
-    console.log(newPlates)
     plates_id.push(newUuid)
     plates.push(newPlates);
     const sqlValues = [newPlates, newUuid]
@@ -94,6 +71,16 @@ export default async function handler(req, res) {
     con.query(sql, sqlValues, function (err, result) {
       if (err) throw err;
       console.error();
+    });
+
+    watch('./public/images', (eventType, filename) => {
+      const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/" + filename]
+      let sql = `INSERT INTO images_plates(plate, uuid, img) VALUES(?, ?, ? )`;
+      console.log(sqlValues)
+      con.query(sql, sqlValues, function (err, result) {
+        if (err) throw err;
+        console.error();
+      });
     });
     res.status(200).json(newPlates)
   }

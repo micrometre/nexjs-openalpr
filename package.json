@@ -19,6 +19,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "autoprefixer": "10.4.15",
+    "chokidar": "^3.5.3",
     "clsx": "^2.0.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13",
