@@ -1,25 +1,6 @@
-import { watch } from 'fs';
 import EventEmitter from "events"
-import chokidar from "chokidar"
-let alpr_stdout = []
-const { execFile } = require('node:child_process');
 const { spawn } = require('child_process');
 
-const watcher = chokidar.watch('.', {
-  persistent: true,
-  cwd: "public/images",
-  ignoreInitial: true,
-  ignorePermissionErrors: false,
-  interval: 900,
-  binaryInterval: 300,
-  disableGlobbing: false,
-  enableBinaryInterval: true,
-  useFsEvents: false,
-  usePolling: false,
-  atomic: true,
-  followSymlinks: true,
-  awaitWriteFinish: true
-})
 
 
 
@@ -41,17 +22,6 @@ var con = mysql.createConnection({
 
 con.connect(function (err) {
   if (err) throw err;
-  var sql_images = `CREATE TABLE IF NOT EXISTS alpr_images (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    img TEXT,
-    created_on DATETIME NOT NULL DEFAULT NOW() -- or CURRENT_TIMESTAMP
-  )`
-  var sql_plates = `CREATE TABLE IF NOT EXISTS alpr_plates (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    plate TEXT,
-    uuid TEXT,
-    created_on DATETIME NOT NULL DEFAULT NOW() -- or CURRENT_TIMESTAMP
-  )`
   var images_plates = `CREATE TABLE IF NOT EXISTS images_plates (
     id INT PRIMARY KEY AUTO_INCREMENT,
     plate TEXT,
@@ -59,12 +29,6 @@ con.connect(function (err) {
     img TEXT,
     created_on DATETIME NOT NULL DEFAULT NOW() -- or CURRENT_TIMESTAMP
   )`
-  con.query(sql_images, function (err, result) {
-    if (err) throw err;
-  });
-  con.query(sql_plates, function (err, result) {
-    if (err) throw err;
-  });
   con.query(images_plates, function (err, result) {
     if (err) throw err;
   });
@@ -76,25 +40,23 @@ con.connect(function (err) {
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const ls = spawn('inotifywait', [ '--timefmt', '%F%T',  '--format', '%T%f',  '-m', '-e', 'create', 'public/images']);
-
+    const ls = spawn('inotifywait', ['--format', '%f', '-m', '-e', 'create', 'public/images']);
     ls.stdout.on('data', (data) => {
-      console.log(`${data}`);
+      //    console.log(`${data}`);
+      const newUuid = req.body.uuid;
+      const newPlates = req.body.results[0].plate;
+      plates_id.push(newUuid)
+      plates.push(newPlates);
+      const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/" + data]
+      console.log(sqlValues)
+      let sql = `INSERT INTO images_plates(plate, uuid, img) VALUES(?, ?, ?)`;
+      con.query(sql, sqlValues, function (err, result) {
+        if (err) throw err;
+        console.error();
+      });
+      res.status(200).json(newPlates)
     });
 
-    const newUuid = req.body.uuid;
-    const newPlates = req.body.results[0].plate;
-    plates_id.push(newUuid)
-    plates.push(newPlates);
-    const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/"]
-    //console.log(sqlValues)
-    let sql = `INSERT INTO images_plates(plate, uuid, img) VALUES(?, ?, ?)`;
-    con.query(sql, sqlValues, function (err, result) {
-      if (err) throw err;
-      console.error();
-    });
-
-    res.status(200).json(newPlates)
 
   }
 
