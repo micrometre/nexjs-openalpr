@@ -4,7 +4,19 @@ import chokidar from "chokidar"
 let alpr_stdout = []
 const { execFile } = require('node:child_process');
 const { spawn } = require('child_process');
+const ls = spawn('inotifywait', ['-m', 'public/images']);
 
+ls.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+ls.stderr.on('data', (data) => {
+  console.error(`stderr: ${data}`);
+});
+
+ls.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+}); 
 
 const watcher = chokidar.watch('.', {
   persistent: true,
@@ -77,19 +89,7 @@ con.connect(function (err) {
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const ls = spawn('inotifywait', ['-m', '/usr']);
 
-ls.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
-
-ls.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
-
-ls.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-}); 
       const newUuid = req.body.uuid;
       const newPlates = req.body.results[0].plate;
       plates_id.push(newUuid)
