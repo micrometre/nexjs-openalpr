@@ -4,10 +4,11 @@ import chokidar from "chokidar"
 let alpr_stdout = []
 const { execFile } = require('node:child_process');
 const { spawn } = require('child_process');
-const ls = spawn('inotifywait', ['-m', 'public/images']);
+
+const ls = spawn('inotifywait', ['-m', '-e', 'create',  'public/images']);
 
 ls.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
+  console.log(`${data}`);
 });
 
 ls.stderr.on('data', (data) => {
@@ -89,7 +90,6 @@ con.connect(function (err) {
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-
       const newUuid = req.body.uuid;
       const newPlates = req.body.results[0].plate;
       plates_id.push(newUuid)
