@@ -3,10 +3,6 @@ const { spawn } = require('child_process');
 
 import { execFile } from "child_process";
 
-const { exec } = require('node:child_process');
-
-
-
 
 const stream = new EventEmitter();
 export const delay = (ms) => new Promise(function (resolve) {
@@ -40,27 +36,21 @@ con.connect(function (err) {
 
 
 
-let exe_stdout = []
-const ls = spawn('bash', ['manage.sh']);
-
-ls.stdout.on('data', (data) => {
-  console.log(` ${data}`);
-
-});
-
-ls.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
-
-ls.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-}); 
 
 
 export default async function handler(req, res) {
-  
   if (req.method === 'POST') {
-
+    //const ls = spawn('inotifywait', ['--format', '%f', '-m', '-e', 'create', 'public/images']);
+    //const ls = spawn('alpr', ['-n', '1', 'public/images/']);
+    //ls.stdout.on('data', (data) => {
+      //    console.log(`${data}`);
+    //});
+    const child = execFile('./manage.sh', (error, stdout, stderr) => {
+      if (error) {
+        throw error;
+      }
+      console.log(stdout);
+    }); 
       const newUuid = req.body.uuid;
       const newPlates = req.body.results[0].plate;
       plates_id.push(newUuid)

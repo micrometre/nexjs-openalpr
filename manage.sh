@@ -1,5 +1,17 @@
 #!/bin/bash -xv
 pwd
+alpr -c gb  -n 1 public/images | sed 's|public|{img: "http://localhost|g;s|plate0|{|g;s/.$/"}/;/: 1 result/d;s/^\s*./{/g; s/confidence:/:"/g   '
+
+
+
+
+
+#awk '{print}'
+
+
+#awk  '{sub(/public/,"http://localhost/images")   sub(/plate/, "")  } /-/' 
+
+#alpr -c gb  -n 1 images | awk '/-/ {print $1 "\t" $2}' 
 #   file="sqlite-data/collection.db"
 #   if [ -f "$file" ] ; then
 #       rm "$file"
@@ -15,4 +27,14 @@ pwd
 #   inotifywait --monitor --timefmt '%F %T' --format '%T %f' --recursive   -e create public/images/
 #   inotifywait --monitor --timefmt '%F %T' --format '%T %f' --recursive   -e create public/images/
 #   inotifywait --monitor --timefmt '%F %T' --format '%T%w%f' --recursive   -e create public/images/
-inotifywait --monitor --timefmt '%F%T' --format '%T%w%f' --recursive   -e create public/images
+#inotifywait --monitor --timefmt '%F%T' --format '%T%w%f' --recursive   -e create public/images
+#alpr -n 1 -c gb images/  | sed 's/^\(.*\)$/echo \1/' 
+#!/bin/bash
+#alpr -c gb public/images -n 1
+file="images"
+
+#for d in $file ; do
+   
+#   alpr -c gb  -n 1 images | awk '/-/ {print $1 "\t" $2}' 
+
+#   done     
