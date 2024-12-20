@@ -1,11 +1,4 @@
 import EventEmitter from "events"
-const { spawn } = require('child_process');
-
-import { execFile } from "child_process";
-
-const { exec } = require('node:child_process');
-
-
 
 
 const stream = new EventEmitter();
@@ -13,16 +6,15 @@ export const delay = (ms) => new Promise(function (resolve) {
   return setTimeout(resolve, ms);
 });
 var mysql = require('mysql');
-let plates = [];
-let plates_id = []
 var con = mysql.createConnection({
   host: "localhost",
   user: "alpruser",
   password: "=[-p0o9i8U",
   database: "alprdata"
-
 });
 
+let plates = [];
+let plates_id = []
 
 con.connect(function (err) {
   if (err) throw err;
@@ -39,44 +31,21 @@ con.connect(function (err) {
 });
 
 
-
-let exe_stdout = []
-const ls = spawn('bash', ['manage.sh']);
-
-ls.stdout.on('data', (data) => {
-  console.log(` ${data}`);
-
-});
-
-ls.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
-
-ls.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-}); 
-
-
 export default async function handler(req, res) {
-  
   if (req.method === 'POST') {
-
       const newUuid = req.body.uuid;
       const newPlates = req.body.results[0].plate;
       plates_id.push(newUuid)
       plates.push(newPlates);
       const sqlValues = [newPlates, newUuid, "http://localhost:3000/images/"]
-      //console.log(sqlValues)
+      console.log(sqlValues)
       let sql = `INSERT INTO images_plates(plate, uuid, img) VALUES(?, ?, ?)`;
       con.query(sql, sqlValues, function (err, result) {
         if (err) throw err;
         console.error();
       });
       res.status(200).json(newPlates)
-
-
   }
-
   if (req.method === 'GET') {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache, no-transform");
@@ -91,9 +60,7 @@ export default async function handler(req, res) {
       stream.emit("channel", "alprEvent", data); // the event name here must be the same as in the EventSource in frontend
       await delay(100);
     }
-
     res.end('done\n');
-
   }
   else {
     // Handle any other HTTP method

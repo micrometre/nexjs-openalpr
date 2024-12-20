@@ -1,10 +1,10 @@
 update:
-	docker-compose down -v
-	docker-compose pull
-	docker-compose up -d --build
+	docker compose down -v
+	docker compose pull
+	docker compose up -d --build
 start:	
-	docker-compose up -d
+	docker compose up -d
 stop:	
-	docker-compose stop
-remove:	
-	docker-compose down -v
+	docker compose stop
+remove: 
+	docker compose down -v
