@@ -19,6 +19,7 @@ export default async function handler(req, res) {
     stream.emit("channel", "alprImageEvent", "http://localhost:3000/images/" + filename);
     return filename
   });
+
   counter++;
   await delay(100000);
   res.end("done\n");
